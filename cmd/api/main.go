@@ -1,11 +1,14 @@
 package main
 
 import (
+	"github.com/Leonardo2604/go-todo-api/internal/config"
 	"github.com/Leonardo2604/go-todo-api/internal/handler"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	config.InitializeConfig();
+
 	r := gin.Default()
 
 	r.GET("/todos", handler.GetAllTodos)
