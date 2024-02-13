@@ -9,15 +9,15 @@ import (
 )
 
 func GetAllTodos(ctx *gin.Context) {
-	todos := repository.GetAllTodos();
+	todos := repository.Todo.GetAllTodos()
 
 	ctx.JSON(http.StatusOK, todos)
 }
 
 func FindTodo(ctx *gin.Context) {
-	idParam := ctx.Param("id");
+	idParam := ctx.Param("id")
 
-	id, err := strconv.ParseUint(idParam, 10, 64);
+	id, err := strconv.ParseUint(idParam, 10, 64)
 
 	if err != nil {
 		ctx.JSON(400, gin.H{
@@ -27,7 +27,7 @@ func FindTodo(ctx *gin.Context) {
 		return
 	}
 
-	todo := repository.FindTodo(&id);
+	todo := repository.Todo.FindTodo(id)
 
 	if todo.Id == 0 {
 		ctx.JSON(404, gin.H{
@@ -41,27 +41,27 @@ func FindTodo(ctx *gin.Context) {
 }
 
 func CreateTodo(ctx *gin.Context) {
-	body := struct{
-		Title string `json:"title"`
-		IsDone bool `json:"is_done"`
+	body := struct {
+		Title  string `json:"title"`
+		IsDone bool   `json:"is_done"`
 	}{}
 
 	ctx.Bind(&body)
 
 	params := repository.CreateTodoParams{
-		Title: body.Title,
+		Title:  body.Title,
 		IsDone: body.IsDone,
 	}
 
-	todo := repository.CreateTodo(&params)
+	todo := repository.Todo.CreateTodo(params)
 
 	ctx.JSON(http.StatusCreated, todo)
 }
 
 func UpdateTodo(ctx *gin.Context) {
-	idParam := ctx.Param("id");
+	idParam := ctx.Param("id")
 
-	id, err := strconv.ParseUint(idParam, 10, 64);
+	id, err := strconv.ParseUint(idParam, 10, 64)
 
 	if err != nil {
 		ctx.JSON(400, gin.H{
@@ -71,27 +71,27 @@ func UpdateTodo(ctx *gin.Context) {
 		return
 	}
 
-	body := struct{
-		Title string `json:"title"`
-		IsDone bool `json:"is_done"`
+	body := struct {
+		Title  string `json:"title"`
+		IsDone bool   `json:"is_done"`
 	}{}
 
 	ctx.Bind(&body)
 
 	params := repository.UpdateTodoParams{
-		Title: body.Title,
+		Title:  body.Title,
 		IsDone: body.IsDone,
 	}
 
-	repository.UpdateTodo(&id, &params);
+	repository.Todo.UpdateTodo(id, params)
 
 	ctx.JSON(http.StatusNoContent, gin.H{})
 }
 
 func DeleteTodo(ctx *gin.Context) {
-	idParam := ctx.Param("id");
+	idParam := ctx.Param("id")
 
-	id, err := strconv.ParseUint(idParam, 10, 64);
+	id, err := strconv.ParseUint(idParam, 10, 64)
 
 	if err != nil {
 		ctx.JSON(400, gin.H{
@@ -101,7 +101,7 @@ func DeleteTodo(ctx *gin.Context) {
 		return
 	}
 
-	repository.DeleteTodo(&id);
+	repository.Todo.DeleteTodo(id)
 
 	ctx.JSON(http.StatusNoContent, gin.H{})
 }
