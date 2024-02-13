@@ -7,7 +7,7 @@ type database struct {
 	user string
 	pass string
 	name string
-	port string
+	port uint
 }
 
 func (d database) GetHost() string {
@@ -26,10 +26,10 @@ func (d database) GetName() string {
 	return d.name
 }
 
-func (d database) GetPort() string {
+func (d database) GetPort() uint {
 	return d.port
 }
 
 func (d database) GetDSN() string {
-	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", d.host, d.user, d.pass, d.name, d.port)
+	return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable", d.host, d.user, d.pass, d.name, d.port)
 }

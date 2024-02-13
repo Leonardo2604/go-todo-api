@@ -37,13 +37,19 @@ func Init() error {
 		return err
 	}
 
+	dbPort, err := strconv.ParseUint(os.Getenv("DATABASE_PORT"), 10, 64)
+
+	if err != nil {
+		return err
+	}
+
 	c = config{
 		database: database{
 			host: os.Getenv("DATABASE_HOST"),
 			user: os.Getenv("DATABASE_USER"),
 			pass: os.Getenv("DATABASE_PASS"),
 			name: os.Getenv("DATABASE_NAME"),
-			port: os.Getenv("DATABASE_PORT"),
+			port: uint(dbPort),
 		},
 		server: server{
 			port: uint(serverPort),
